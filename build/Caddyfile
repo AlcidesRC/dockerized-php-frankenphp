@@ -1,0 +1,15 @@
+{
+	frankenphp
+}
+
+website.localhost {
+    tls internal
+
+    respond /healthcheck 200
+
+    root * /app/public
+
+    encode zstd br gzip
+
+    php_server
+}
