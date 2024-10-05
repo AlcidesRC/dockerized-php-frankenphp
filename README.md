@@ -14,21 +14,15 @@
 
 ## Summary
 
-This repository contains a _dockerized_ environment for building PHP applications based on **dunglas/frankenphp:php8.3.10-alpine**.
+This repository contains a _dockerized_ environment for building PHP applications based on **dunglas/frankenphp:php8.3.12-alpine**.
 
 ### Highlights
 
 - Unified environment to build <abbr title="Command Line Interface">CLI</abbr>, <u>web applications</u> and/or <u>micro-services</u> based on **PHP8**.
-- Allows you to create an optimized **development environment** Docker image
-- Allows you to create an optimized **production-ready** Docker image
--  Using **FrankenPHP** web server.
-
-### Infrastructure
-
-| Docker Infrastructure | Value | Size  |
-| --------------------- | ----- | ----- |
-| Containers            | 1     | 185Mb |
-| Services              | 1     | N/A   |
+- Multi-stage Dockerfile to allows you to create an optimized **development** or **production-ready** Docker images
+- Uses **FrankenPHP webserver**.
+- PHP is **managed by FrankenPHP**.
+- **Everything in one single Docker service**.
 
 
 
@@ -43,6 +37,7 @@ To use this repository you need:
 - [Docker](https://www.docker.com/) - An open source containerization platform.
 - [Git](https://git-scm.com/) - The free and open source distributed version control system.
 - [Make](https://www.gnu.org/software/make/) - A command to automate the build/manage process.
+- [jq](https://jqlang.github.io/jq/download/) - A lightweight and flexible command-line JSON processor.
 
 
 
@@ -52,12 +47,13 @@ To use this repository you need:
 
 ## Built with
 
-| Type           | Component                                  | Description                                                  |
-| -------------- | ------------------------------------------ | ------------------------------------------------------------ |
-| Infrastructure | [Docker](https://www.docker.com/)          | Containerization platform                                    |
-| Service        | [FrankenPHP](https://frankenphp.dev/)      | Open source web server with automatic HTTPS written in Go    |
-| Miscelaneous   | [Bash](https://www.gnu.org/software/bash/) | Allows to create an interactive shell within containerized service |
-| Miscelaneous   | [Make](https://www.gnu.org/software/make/) | Allows to execute commands defined on a _Makefile_           |
+| Type           | Component                                   | Description                                                  |
+| -------------- | ------------------------------------------- | ------------------------------------------------------------ |
+| Infrastructure | [Docker](https://www.docker.com/)           | Containerization platform                                    |
+| Service        | [FrankenPHP](https://frankenphp.dev/)       | Open source web server with automatic HTTPS written in Go    |
+| Miscelaneous   | [Bash](https://www.gnu.org/software/bash/)  | Allows to create an interactive shell within containerized service |
+| Miscelaneous   | [Make](https://www.gnu.org/software/make/)  | Allows to execute commands defined on a _Makefile_           |
+| Miscelaneous   | [jq](https://jqlang.github.io/jq/download/) | Allows to beautify the Docker inspections in JSON format     |
 
 
 
@@ -98,41 +94,39 @@ $ mkdir -p ~/path/to/my-new-project && cd ~/path/to/my-new-project
 $ git clone git@github.com:alcidesrc/dockerized-php-frankenphp.git .
 ```
 
+### Quickstart
 
+```bash
+$ make init
+```
 
-### Building the container
+### TL;DR
+
+#### Building the container
 
 ```bash
 $ make build
 ```
 
-### Starting the container service
+#### Starting the container service
 
 ```bash
 $ make up
 ```
 
-### Extracting Caddy Local Authority - 20XX ECC Root 
+#### Extracting Caddy Local Authority - 20XX ECC Root 
 
 ```bash
-$ make extract-caddy-certificate
+$ make install-caddy-certificate
 ```
 
-
-
-> [!WARNING]
->
-> Just follow the instructions provided in order to properly install the certificate into your preferred browser.
-
-
-
-### Accessing to web application
+#### Accessing to web application
 
 ```bash
-$ xdg-open https://website.localhost
+$ make open-website
 ```
 
-### Stopping the container service
+#### Stopping the container service
 
 ```bash
 $ make down
