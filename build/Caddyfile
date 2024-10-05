@@ -2,14 +2,22 @@
 	frankenphp
 }
 
-website.localhost {
+(common) {
+	encode zstd gzip
+    file_server
+}
+
+(ssl) {
     tls internal
+}
+
+{$HOSTNAME} {
+    import common
+    import ssl
 
     respond /healthcheck 200
 
     root * /app/public
-
-    encode zstd br gzip
 
     php_server
 }

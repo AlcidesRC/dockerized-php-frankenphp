@@ -1,28 +1,32 @@
 volumes:
-  caddy_data:
-  caddy_config:
+    caddy_data:
+    caddy_config:
 
 services:
-  app:
-    container_name: app
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: build-development
-    image: app:frankenphp
-    restart: unless-stopped
-    tty: true
-    volumes:
-      - ./build/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./src:/app
-      - caddy_data:/data
-      - caddy_config:/config
-    ports:
-      - 80:80
-      - 443:443
-      - 443:443/udp
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "https://website.localhost/healthcheck"]
-      interval: 10s
-      timeout: 1s
-      retries: 3
+    custom-frankenphp:
+        container_name: custom-frankenphp
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: build-development
+        image: dockerized-php-frankenphp:dev
+        restart: unless-stopped
+        tty: true
+        environment:
+            - HOSTNAME=localhost
+        volumes:
+            - ./build/Caddyfile:/etc/caddy/Caddyfile:ro
+            - ./src:/app
+            - caddy_data:/data
+            - caddy_config:/config
+        ports:
+            - 80:80
+            - 443:443
+            - 443:443/udp
+        healthcheck:
+            test: ["CMD", "wget", "--no-check-certificate", "--spider", "https://localhost/healthcheck"]
+            interval: 30s
+            timeout: 1s
+            retries: 3
+            start_period: 10s
+            #start_interval: 2s
