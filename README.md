@@ -14,7 +14,7 @@
 
 ## Summary
 
-This repository contains a _dockerized_ environment for building PHP applications based on **dunglas/frankenphp:php8.3.12-alpine**.
+This repository contains a _dockerized_ environment for building PHP applications based on **dunglas/frankenphp:php8.5-alpine**.
 
 ### Highlights
 
