@@ -4,7 +4,7 @@
 # STAGE: BASE-IMAGE
 #----------------------------------------------------------
 
-FROM dunglas/frankenphp:php8.3.12-alpine AS base-image
+FROM dunglas/frankenphp:php8.5-alpine AS base-image
 
 #----------------------------------------------------------
 # STAGE: COMMON
@@ -43,8 +43,6 @@ FROM extensions-builder-common AS extensions-builder-dev
 
 # Add, compile and configure PHP extensions
 RUN install-php-extensions \
-        pcov \
-        uopz \
         xdebug
 
 #----------------------------------------------------------
@@ -70,7 +68,7 @@ RUN chown -Rf ${HOST_USER_NAME}:${HOST_GROUP_NAME} /app \
     && rm -Rf /app/*
 
 # Add __ONLY__ compiled extensions & their config files
-COPY --from=extensions-builder-dev /usr/local/lib/php/extensions/*/* /usr/local/lib/php/extensions/no-debug-zts-20230831/
+COPY --from=extensions-builder-dev /usr/local/lib/php/extensions/*/* /usr/local/lib/php/extensions/no-debug-zts-20250925/
 COPY --from=extensions-builder-dev /usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/
 
 # Add Composer from public Docker image
@@ -131,7 +129,7 @@ FROM common AS build-production
 ENV ENV=PRODUCTION
 
 # Add __ONLY__ compiled extensions & their config files
-COPY --from=extensions-builder-common /usr/local/lib/php/extensions/*/* /usr/local/lib/php/extensions/no-debug-zts-20230831/
+COPY --from=extensions-builder-common /usr/local/lib/php/extensions/*/* /usr/local/lib/php/extensions/no-debug-zts-20250925/
 COPY --from=extensions-builder-common /usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/
 
 # Add the optimized for production application
